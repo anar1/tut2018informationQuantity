@@ -1,4 +1,4 @@
-package s4.B18338; // Please modify to s4.Bnnnnnn, where nnnnnn is your student ID. 
+package s4.B183383; // Please modify to s4.Bnnnnnn, where nnnnnn is your student ID. 
 import java.lang.*;
 import s4.specification.*;
 
@@ -34,7 +34,7 @@ public class TestCase {
 	try {
 	    FrequencerInterface  myObject;
 	    int freq;
-	    System.out.println("checking s4.B18383.Frequencer");
+	    System.out.println("checking s4.B183383.Frequencer");
 	    myObject = new s4.B183383.Frequencer();
 	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
 	    myObject.setTarget("H".getBytes());
