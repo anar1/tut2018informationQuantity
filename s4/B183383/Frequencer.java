@@ -16,8 +16,6 @@ public interface FrequencerInterface {     // This interface provides the design
 }
 */
 
-
-
 public class Frequencer implements FrequencerInterface{
     // Code to start with: This code is not working, but good start point to work.
     byte [] myTarget;
@@ -41,7 +39,6 @@ public class Frequencer implements FrequencerInterface{
 	    }
 	}
     }
-
     private int suffixCompare(int i, int j) {
 	// comparing two suffixes by dictionary order.
 	// i and j denoetes suffix_i, and suffix_j
@@ -57,24 +54,20 @@ public class Frequencer implements FrequencerInterface{
 	//
 	// ****  Please write code here... ***
 	//
-		int ii = i;
-    	int jj = j;
-    	int flag;
-    
-    	while(ii < mySpace.length && jj < mySpace.length){
-    		if(mySpace[ii] > mySpace[jj]){
-    			System.out.println(ii+","+jj);
+		i = suffixArray[i];
+    	j = suffixArray[j];
+    	while(i < mySpace.length && j < mySpace.length){
+    		if(mySpace[i] > mySpace[j]){
     			return 1;
-
-    		}else if(mySpace[ii] == mySpace[jj]){
-    			ii++;
-    			jj++;
+    		}else if(mySpace[i] == mySpace[j]){
+    			i++;
+    			j++;
     		}else{
     			return -1;
     		}
  	   }
- 	   if(ii == mySpace.length && jj != mySpace.length ){return -1;}
- 	   else if(ii != mySpace.length && jj == mySpace.length){return 1;}
+ 	   if(i == mySpace.length && j != mySpace.length ){return -1;}
+ 	   else if(i != mySpace.length && j == mySpace.length){return 1;}
  	   return 0;
     }
 
@@ -85,9 +78,6 @@ public class Frequencer implements FrequencerInterface{
 	for(int i = 0; i< space.length; i++) {
 	    suffixArray[i] = i;
 	}
-	// Sorting is not implmented yet.
-	//
-	//
 	// ****  Please write code here... ***
 	int temp = 0;
 	for (int i = 0; i < mySpace.length; i++){
@@ -97,13 +87,9 @@ public class Frequencer implements FrequencerInterface{
                 temp = suffixArray[i];
                 suffixArray[i] = suffixArray[j];
                 suffixArray[j] = temp;
-                //aa
-
             }   
         }
 	}
-
-	//
     }
 
     private int targetCompare(int i, int j, int end) {
@@ -200,14 +186,13 @@ public class Frequencer implements FrequencerInterface{
 	       A:o Hi Ho
 	    */
 
-	    //frequencerObject.setTarget("H".getBytes());
-	    //
+	    frequencerObject.setTarget("H".getBytes());
 	    // ****  Please write code to check subByteStartIndex, and subByteEndIndex
-	    //
+	    
 
-	    //int result = frequencerObject.frequency();
-	    //System.out.print("Freq = "+ result+" ");
-	    //if(4 == result) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+	    int result = frequencerObject.frequency();
+	    System.out.print("Freq = "+ result+" ");
+	    if(4 == result) { System.out.println("OK"); } else {System.out.println("WRONG"); }
 	}
 	catch(Exception e) {
 	    System.out.println("STOP");
