@@ -175,7 +175,9 @@ public class Frequencer implements FrequencerInterface{
     }
 
     public void setTarget(byte [] target) { 
-		myTarget = target; if(myTarget.length>0) targetReady = true; 
+		myTarget = target; 
+		if(myTarget.length>0) 
+			targetReady = true; 
     }
 
     public int frequency() {
@@ -185,7 +187,7 @@ public class Frequencer implements FrequencerInterface{
     }
 
     public static void main(String[] args) {
-	Frequencer frequencerObject;
+		Frequencer frequencerObject;
 	try {
 	    frequencerObject = new Frequencer();
 	    frequencerObject.setSpace("Hi Ho Hi Ho".getBytes());

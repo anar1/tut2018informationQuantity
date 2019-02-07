@@ -20,7 +20,8 @@ public class InformationEstimator implements InformationEstimatorInterface{
     byte [] myTarget; // data to compute its information quantity
     byte [] mySpace;  // Sample space to compute the probability
     FrequencerInterface myFrequencer;  // Object for counting frequency
-   
+    boolean tFlag = false;
+    boolean sFlag = false;
     // corresponding to substring of String for  byte[] ,
 	// It is not implement in class library because internal structure of byte[] requires copy.
     byte [] subBytes(byte [] x, int start, int end) {
@@ -38,15 +39,22 @@ public class InformationEstimator implements InformationEstimatorInterface{
 
     public void setTarget(byte [] target){
     	 myTarget = target;
+    	 if(target.length > 0)
+    	 	tFlag = true;
     }
 
     public void setSpace(byte []space) { 
 		myFrequencer = new Frequencer();
 		mySpace = space; 
 		myFrequencer.setSpace(space); 
+		sFlag = true;
     }
 
     public double estimation(){
+    	if(tFlag == false)
+    		return 0;
+    	if(sFlag == false)
+    		return Double.MAX_VALUE;
 		myFrequencer.setTarget(myTarget);
 		double[] estimation = new double[myTarget.length + 1];
 		estimation[0] = (double)0.0;
