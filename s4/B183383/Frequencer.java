@@ -22,7 +22,6 @@ public class Frequencer implements FrequencerInterface{
     byte [] mySpace;
     boolean targetReady = false;
     boolean spaceReady = false;
-
     int []  suffixArray;
 
     // The variable, "suffixArray" is the sorted array of all suffixes of mySpace.
@@ -39,79 +38,75 @@ public class Frequencer implements FrequencerInterface{
 	    }
 	}
     }
+    
     private int suffixCompare(int i, int j) {
-	// comparing two suffixes by dictionary order.
-	// i and j denoetes suffix_i, and suffix_j
-	// if suffix_i > suffix_j, it returns 1
-	// if suffix_i < suffix_j, it returns -1
-	// if suffix_i = suffix_j, it returns 0;
-	// It is not implemented yet, 
-	// It should be used to create suffix array.
-	// Example of dictionary order
-	// "i"      <  "o"        : compare by code
-	// "Hi"     <  "Ho"       ; if head is same, compare the next element
-	// "Ho"     <  "Ho "      ; if the prefix is identical, longer string is big
-	//
-	// ****  Please write code here... ***
-	//
-		i = suffixArray[i];
-    	j = suffixArray[j];
-    	while(i < mySpace.length && j < mySpace.length){
-    		if(mySpace[i] > mySpace[j]){
-    			return 1;
-    		}else if(mySpace[i] == mySpace[j]){
-    			i++;
-    			j++;
-    		}else{
-    			return -1;
-    		}
- 	   }
- 	   if(i == mySpace.length && j != mySpace.length ){return -1;}
- 	   else if(i != mySpace.length && j == mySpace.length){return 1;}
- 	   return 0;
+    	for(;i < mySpace.length && j < mySpace.length;i++,j++){
+	      if(mySpace[i] > mySpace[j]){
+	        return 1;
+	      }
+	      else if(mySpace[i] < mySpace[j]){
+	        return -1;
+	      }
+	    }
+	    if(j>i){
+			return 1;
+		}else if(j<i){ return -1;
+		}
+		return 0;
     }
 
+    public void MergeSort(int[] array, int low, int high){
+    	if(low < high){
+    		int middle = (low + high)/2;
+    		MergeSort(array, low ,middle);
+    		MergeSort(array, middle+1, high);
+	        merge(array, low, middle, high);
+    	}
+    }
+
+    public void merge(int[] array, int low, int middle, int high){
+	        int[] h = new int[array.length];
+	        for (int i = low; i <= high; i++){
+	            h[i] = array[i];
+	        }
+	        int hLeft = low;
+	        int hRight = middle + 1;
+	        int current = low;
+	
+	        //文字列変える
+	        while (hLeft <= middle && hRight <= high){
+	          int i=0;
+	          if(suffixCompare(h[hLeft]+i,h[hRight]+i)==1){
+	            array[current] = h[hRight];
+	            hRight ++;
+	          }
+	          else {
+	              array[current] = h[hLeft];
+	              hLeft ++;
+	          }
+	          i++;
+	          current ++;
+	        }
+	        int remaining = middle - hLeft;
+	        for (int i = 0; i <= remaining; i++){
+	            array[current + i] = h[hLeft + i];
+	        }
+	    }
+
     public void setSpace(byte []space) { 
-	mySpace = space; if(mySpace.length>0) spaceReady = true; 
-	suffixArray = new int[space.length];
-	// put all suffixes  in suffixArray. Each suffix is expressed by one integer.
-	for(int i = 0; i< space.length; i++) {
-	    suffixArray[i] = i;
-	}
-	// ****  Please write code here... ***
-	int temp = 0;
-	for (int i = 0; i < mySpace.length; i++){
-        for (int j = i+1; j < mySpace.length; j++){
-            if (suffixCompare(i,j) == 1)
-            {
-                temp = suffixArray[i];
-                suffixArray[i] = suffixArray[j];
-                suffixArray[j] = temp;
-            }   
-        }
-	}
+		mySpace = space; 
+		if(mySpace.length>0) 
+			spaceReady = true; 
+		suffixArray = new int[space.length];
+		// put all suffixes  in suffixArray. Each suffix is expressed by one integer.
+		for(int i = 0; i< space.length; i++) {
+	    	suffixArray[i] = i;
+		}
+		// ****  Please write code here... ***
+		MergeSort(suffixArray,0,suffixArray.length-1);
     }
 
     private int targetCompare(int i, int j, int end) {
-	// comparing suffix_i and target_j_end by dictonary order with limitation of length;
-	// if the beginning of suffix_i matches target_i_end, and suffix is longer than target  it returns 0;
-	// if suffix_i > target_i_end it return 1;
-	// if suffix_i < target_i_end it return -1
-	// It is not implemented yet.
-	// It should be used to search the apropriate index of some suffix.
-	// Example of search
-	// suffix          target
-        // "o"       >     "i"
-        // "o"       <     "z"
-	// "o"       =     "o"
-        // "o"       <     "oo"
-	// "Ho"      >     "Hi"
-	// "Ho"      <     "Hz"
-	// "Ho"      =     "Ho"
-        // "Ho"      <     "Ho "   : "Ho " is not in the head of suffix "Ho"
-	// "Ho"      =     "H"     : "H" is in the head of suffix "Ho"
-	//
-	// ****  Please write code here... ***
     	int n = suffixArray[i];
     	for(; j<end; j++, n++){
 	    	if(mySpace[n] > myTarget[j]){
@@ -197,7 +192,7 @@ public class Frequencer implements FrequencerInterface{
 	    int end = frequencerObject.myTarget.length;
 	    System.out.println("----- targetCompare's test ----");
 	    for(int i = 0; i<11; i++){
-	    	System.out.println(frequencerObject.targetCompare(i,0,end));
+	    	System.out.println(+i +" : " +frequencerObject.targetCompare(i,0,end));
 	    }
 	    System.out.println("----- subByteStartIndex's test ----");
 	    System.out.println(frequencerObject.subByteStartIndex(0,end));
